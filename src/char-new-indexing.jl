@@ -49,7 +49,7 @@ function MathieuCharB(ν::Real,q::Real)
     else
         ν_abs=abs(ν)
         ν_abs_trunc=trunc(Int,ν_abs)
-        return charλ(q, ν_abs-ν_abs_trunc; k=ν_abs_trunc+1:ν_abs_trunc+1)[1]
+        return charλ(q, ν_abs-ν_abs_trunc; k=ν_abs_trunc+1:ν_abs_trunc+1)[1] #TODO fix v>1
     end
 end
 
