@@ -2,8 +2,7 @@ module MathieuF
     using LinearAlgebra
     using MathieuFunctions
 
-    export  MathieuCharA,MathieuCharB
+    export  MathieuCharA,MathieuCharB,MathieuCharλ,MathieuCharVecλ
 
-    include("char-new-indexing.jl")
-    include("fourier-coeffs.jl")
+    include("char-coeff-new-indexing.jl")
 end

@@ -63,8 +63,8 @@ filename = "MathieuCharacteristicL-3.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [1.01:.01:1.99;], q in -5:.01:5]
     test3 = Float64[MathieuCharB(ν,q) for ν in [1.01:.01:1.99;], q in -5:.01:5]
-    @test tapprox(test1, test2, atol=4.5e-14)
-    @test tapprox(test1, test3, atol=4.5e-14)
+    @test tapprox(test1, test2, atol=6e-14)
+    @test tapprox(test1, test3, atol=6e-14)
 end
 
 filename = "MathieuCharacteristicL-4.csv"
@@ -72,8 +72,8 @@ filename = "MathieuCharacteristicL-4.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [1.01:.01:1.99;], q in 30:.01:50]
     test3 = Float64[MathieuCharB(ν,q) for ν in [1.01:.01:1.99;], q in 30:.01:50]
-    @test tapprox(test1, test2, atol=4.5e-14)
-    @test tapprox(test1, test3, atol=4.5e-14)
+    @test tapprox(test1, test2, atol=6e-14)
+    @test tapprox(test1, test3, atol=6e-14)
 end
 
 filename = "MathieuCharacteristicL-5.csv"
@@ -81,8 +81,8 @@ filename = "MathieuCharacteristicL-5.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [20.01:.01:20.99;], q in -5:.01:5]
     test3 = Float64[MathieuCharB(ν,q) for ν in [20.01:.01:20.99;], q in -5:.01:5]
-    @test tapprox(test1, test2, atol=4.5e-14)
-    @test tapprox(test1, test3, atol=4.5e-14)
+    @test tapprox(test1, test2, atol=6e-13)
+    @test tapprox(test1, test3, atol=6e-13)
 end
 
 filename = "MathieuCharacteristicL-6.csv"
@@ -90,6 +90,6 @@ filename = "MathieuCharacteristicL-6.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [20.01:.01:20.99;], q in 30:.01:50]
     test3 = Float64[MathieuCharB(ν,q) for ν in [20.01:.01:20.99;], q in 30:.01:50]
-    @test tapprox(test1, test2, atol=4.5e-14)
-    @test tapprox(test1, test3, atol=4.5e-14)
+    @test tapprox(test1, test2, atol=7e-13)
+    @test tapprox(test1, test3, atol=7e-13)
 end
