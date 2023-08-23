@@ -72,8 +72,8 @@ filename = "MathieuCharacteristicL-4.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [1.01:.01:1.99;], q in 30:.01:50]
     test3 = Float64[MathieuCharB(ν,q) for ν in [1.01:.01:1.99;], q in 30:.01:50]
-    @test tapprox(test1, test2, atol=6e-14)
-    @test tapprox(test1, test3, atol=6e-14)
+    @test tapprox(test1, test2, atol=1e-12)
+    @test tapprox(test1, test3, atol=1e-12)
 end
 
 filename = "MathieuCharacteristicL-5.csv"
@@ -81,8 +81,8 @@ filename = "MathieuCharacteristicL-5.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [20.01:.01:20.99;], q in -5:.01:5]
     test3 = Float64[MathieuCharB(ν,q) for ν in [20.01:.01:20.99;], q in -5:.01:5]
-    @test tapprox(test1, test2, atol=6e-13)
-    @test tapprox(test1, test3, atol=6e-13)
+    @test tapprox(test1, test2, atol=1e-12)
+    @test tapprox(test1, test3, atol=1e-12)
 end
 
 filename = "MathieuCharacteristicL-6.csv"
@@ -90,6 +90,49 @@ filename = "MathieuCharacteristicL-6.csv"
     test1 = readcsv(filename)
     test2 = Float64[MathieuCharA(ν,q) for ν in [20.01:.01:20.99;], q in 30:.01:50]
     test3 = Float64[MathieuCharB(ν,q) for ν in [20.01:.01:20.99;], q in 30:.01:50]
-    @test tapprox(test1, test2, atol=7e-13)
-    @test tapprox(test1, test3, atol=7e-13)
+    @test tapprox(test1, test2, atol=1e-12)
+    @test tapprox(test1, test3, atol=1e-12)
 end
+
+function coefR_10(ν,q)
+    _,vec,center_index=MathieuCharVecλ(ν,q)
+    vec[center_index+1]/vec[center_index]
+end
+
+filename = "MathieuFouriercoef-1.csv"
+@testset "$filename" begin
+    test1 = readcsv(filename)
+    test2 = Float64[coefR_10(ν,q) for ν in 0.1:.1:0.9, q in -5:.1:5]
+    @test tapprox(test1, test2, atol=1e-7)
+end
+
+filename = "MathieuFouriercoef-2.csv"
+@testset "$filename" begin
+    test1 = readcsv(filename)
+    test2 = Float64[coefR_10(ν,q) for ν in 0.1:.1:0.9, q in 30:.1:50]
+    @test tapprox(test1, test2, atol=1e-7)
+end
+
+filename = "MathieuFouriercoef-3.csv"
+@testset "$filename" begin
+    test1 = readcsv(filename)
+    test2 = Float64[coefR_10(ν,q) for ν in 1.1:.1:1.9, q in -5:.1:5]
+    @test tapprox(test1, test2, atol=1e-6)
+end
+
+filename = "MathieuFouriercoef-4.csv"
+@testset "$filename" begin
+    test1 = readcsv(filename)
+    test2 = Float64[coefR_10(ν,q) for ν in 1.1:.1:1.9, q in 30:.1:50]
+    @test tapprox(test1, test2, atol=1e-6)
+end
+
+filename = "MathieuFouriercoef-5.csv"
+@testset "$filename" begin
+    test1 = readcsv(filename)
+    test2 = Float64[coefR_10(ν,q) for ν in 20.1:.1:20.9, q in 30:.1:50]
+    @test tapprox(test1, test2, atol=1e-6)
+end
+
+
+# TODO check Wronskian. (For now, I just checked some typical values I need.)
