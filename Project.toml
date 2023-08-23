@@ -9,6 +9,7 @@ MathieuFunctions = "9663349c-1c87-11ea-291d-bd81f86a413c"
 
 [compat]
 julia = "1"
+MathieuFunctions="1"
 
 [extras]
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
