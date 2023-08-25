@@ -145,4 +145,21 @@ function MathieuWron(ν,C_2k::Vector,index::Int)
     return W # For use in real physical motion, W should be multiplied by ω_d/2 with normalization satisfying f(0)=1.
 end
 
+"""
+``f=e^{i\\nu z}\\sum_k{C_{2k}e^{i2kz}}`` with ``\\sum_k{C_{2k}^2}=1`` is the solution of the Mathieu equation.
+"""
+function MathieuFunc(ν,q,z)
+    _,C_2k,index=MathieuCharVecλ(ν,q)
+    f=exp(im*ν*z)*sum(C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))
+    return f
+end
+
+"""
+``\\partial f/\\partial z``
+"""
+function MathieuFuncPrime(ν,q,z)
+    _,C_2k,index=MathieuCharVecλ(ν,q)
+    f=im*ν*exp(im*ν*z)*sum(C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))+exp(im*ν*z)*sum(2*im*collect(1-index:length(C_2k)-index).*C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))
+    return f
+end
 
