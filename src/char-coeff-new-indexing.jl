@@ -130,7 +130,7 @@ the Wronskian is defined by
 \\frac{\\dot{f} f^*-f \\dot{f^*}}{2i}
 ```
 
-where ``f`` is the solution of the Mathieu equation and ``f^*`` is its complex conjugate. 
+where ``f=e^{i\\nu z}\\sum_k{C_{2k}e^{i2kz}}`` with ``\\sum_k{C_{2k}^2}=1`` is the solution of the Mathieu equation and ``f^*`` is its complex conjugate. 
 """
 function MathieuWron(ν,q)
     _,C_2k,index=MathieuCharVecλ(ν,q)
@@ -142,7 +142,7 @@ function MathieuWron(ν,C_2k::Vector,index::Int)
     for i in eachindex(C_2k),j in eachindex(C_2k)
         W+=C_2k[i]*C_2k[j]*(ν+(i-index+j-index))
     end
-    return W
+    return W # For use in real physical motion, W should be multiplied by ω_d/2 with normalization satisfying f(0)=1.
 end
 
 
