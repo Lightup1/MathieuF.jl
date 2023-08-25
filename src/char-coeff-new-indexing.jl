@@ -139,8 +139,8 @@ end
 
 function MathieuWron(ν,C_2k::Vector,index::Int)
     W=0.0
-    for i in eachindex(C_2k)
-        W+=C_2k[i]*(ν+2*(i-index))
+    for i in eachindex(C_2k),j in eachindex(C_2k)
+        W+=C_2k[i]*C_2k[j]*(ν+(i-index+j-index))
     end
     return W
 end
