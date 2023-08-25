@@ -113,10 +113,7 @@ where ``f`` is the solution of the Mathieu equation and ``f^*`` is its complex c
 """
 function MathieuCharVecWronλ(ν::Real,q::Real)
     a,C_2k,index=MathieuCharVecλ(ν,q)
-    W=0.0
-    for i in eachindex(C_2k),j in eachindex(C_2k)
-        W+=C_2k[i]*C_2k[j]*(ν+(i-index+j-index))
-    end
+    W=MathieuWron(ν,C_2k,index)
     return a,C_2k,index,W
 end
 
@@ -137,6 +134,10 @@ where ``f`` is the solution of the Mathieu equation and ``f^*`` is its complex c
 """
 function MathieuWron(ν,q)
     _,C_2k,index=MathieuCharVecλ(ν,q)
+    return MathieuWron(ν,C_2k,index)
+end
+
+function MathieuWron(ν,C_2k::Vector,index::Int)
     W=0.0
     for i in eachindex(C_2k)
         W+=C_2k[i]*(ν+2*(i-index))
