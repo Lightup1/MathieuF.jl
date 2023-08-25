@@ -138,8 +138,8 @@ where ``f`` is the solution of the Mathieu equation and ``f^*`` is its complex c
 function MathieuWron(ν,q)
     _,C_2k,index=MathieuCharVecλ(ν,q)
     W=0.0
-    for i in eachindex(C_2k),j in eachindex(C_2k)
-        W+=C_2k[i]*C_2k[j]*(ν+(i-index+j-index))
+    for i in eachindex(C_2k)
+        W+=C_2k[i]*(ν+2*(i-index))
     end
     return W
 end
