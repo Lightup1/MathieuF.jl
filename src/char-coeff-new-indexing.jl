@@ -150,7 +150,8 @@ end
 """
 function MathieuFunc(ν,q,z)
     _,C_2k,index=MathieuCharVecλ(ν,q)
-    f=exp(im*ν*z)*sum(C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))
+    f=sum(C_2k.*exp.(im*(2*collect(1-index:length(C_2k)-index).+ν)*z))
+    # TODO use @inbound for to speedup
     return f
 end
 
@@ -159,7 +160,8 @@ end
 """
 function MathieuFuncPrime(ν,q,z)
     _,C_2k,index=MathieuCharVecλ(ν,q)
-    f=im*ν*exp(im*ν*z)*sum(C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))+exp(im*ν*z)*sum(2*im*collect(1-index:length(C_2k)-index).*C_2k.*exp.(im*2*collect(1-index:length(C_2k)-index)*z))
+    f=sum(im*(2*collect(1-index:length(C_2k)-index).+ν).*C_2k.*exp.(im*(2*collect(1-index:length(C_2k)-index).+ν)*z))
+    # TODO use @inbound for to speedup
     return f
 end
 
