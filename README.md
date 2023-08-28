@@ -13,6 +13,6 @@ Related Package: [MathieuFunctions.jl](https://github.com/BBN-Q/MathieuFunctions
 - Supporting output of the related Wronskian.
 
 ## TODO
-- support a,q as input.
+- support a,q as input using continued fraction, see [the algorithm](https://www.jstor.org/stable/2003814).
 - Adopting MTIEU2 algorithm for faster speed when only single eigenvalue and the corresponding eigenfunction are needed, see [Shirts](http://dl.acm.org/citation.cfm?id=155796).
 - Accuracy problem for large q or order.
