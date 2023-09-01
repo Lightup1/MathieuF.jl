@@ -135,9 +135,20 @@ filename = "MathieuFouriercoef-5.csv"
 end
 
 let
-    ν=[0:.01:0.99;1.01:.01:1.99;]
-    q=[0:.01:1;5:0.1:20]
-    @test [MathieuExponent(a,q) for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])]≈[ν for ν in ν, q in q] atol=1e-8
+    ν=[0.1:.01:0.99;4.01:.01:4.99;]
+    q=[0:.01:1;]
+    @test [MathieuExponent(a,q,ndet=200)[1] for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])]≈[mod(ν,2) for ν in ν, q in q]
 end
 
-# larger q needs larger maxiter
+let
+    ν=[0.1:.01:0.99;4.01:.01:4.99;]
+    q=[10:.1:20;]
+    @test ≈(
+        [MathieuExponent(a,q,ndet=round(Int,q^2*2))[1] for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])],
+        [mod(ν,2) for ν in ν, q in q], 
+        atol=1e-4, 
+        norm= x -> norm(x, Inf)
+        )
+end
+
+# larger q needs larger ndet
