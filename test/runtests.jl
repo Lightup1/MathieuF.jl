@@ -150,5 +150,6 @@ let
         norm= x -> norm(x, Inf)
         )
 end
+# here the large atol required may caused by MathieuCharA which uses an imperical formula to calculate the corresponding ndet.
 
 # larger q needs larger ndet
