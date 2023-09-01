@@ -134,5 +134,10 @@ filename = "MathieuFouriercoef-5.csv"
     @test tapprox(test1, test2, atol=1e-6)
 end
 
+let
+    ν=[0:.01:0.99;1.01:.01:1.99;]
+    q=[0:.01:1;5:0.1:20]
+    @test [MathieuExponent(a,q) for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])]≈[ν for ν in ν, q in q] atol=1e-8
+end
 
-# TODO check Wronskian. (For now, I just checked some typical values I need.)
+# larger q needs larger maxiter

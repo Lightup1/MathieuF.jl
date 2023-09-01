@@ -9,10 +9,34 @@ Mathematical Functions](http://dlmf.nist.gov/28)).
 Related Package: [MathieuFunctions.jl](https://github.com/BBN-Q/MathieuFunctions.jl)
 
 ## Highlights
-- Supporting output of Fourier coefficients of non-integer order eigenfunctions
-- Supporting output of the related Wronskian.
+- Support Fourier coefficients of non-integer order eigenfunctions
+- Support a,q as input, see [Mathieu functions toolbox](https://atoms.scilab.org/toolboxes/Mathieu/4.0.61)
+- Support output of the related Wronskian.
 
-## TODO
-- support a,q as input using continued fraction, see [the algorithm](https://www.jstor.org/stable/2003814).
-- Adopting MTIEU2 algorithm for faster speed when only single eigenvalue and the corresponding eigenfunction are needed, see [Shirts](http://dl.acm.org/citation.cfm?id=155796).
-- Accuracy problem for large q or order.
+
+## Examples
+
+```julia
+nu,ck=MathieuExponent(a,q)
+```
+where `nu` is the characteristic exponent and vector `ck` is the Fourier coefficients of the eigenfunction with `norm(ck)≈1`.
+Note that `nu` is reduced to the interval `[0,2]` and `c0` corresponds to `ck[(length(ck)-1)÷2]` with the reduced `nu`.
+
+```julia
+W=MathieuWron(nu,ck::Vector,index::Int)
+```
+where `W` is the Wronskian of the eigenfunction with and `index` refers to the index of `c0` in `ck`. 
+For example, 
+```julia
+a=0.1;q=0.5;
+nu,ck=MathieuExponent(a,q)
+idx=(length(ck)-1)÷2+1
+W=MathieuWron(nu,ck,idx)
+```
+
+If one knows `nu` (not reduced) and `q`, one can use
+```julia
+W=MathieuWron(nu,q)
+```
+
+
