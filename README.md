@@ -39,7 +39,7 @@ Code example:
 ```julia
 nu=2-nu
 reverse!(ck)
-idx=idx+=1
+idx+=1
 W_new=MathieuWron(nu,ck,idx)
 ```
 It can be verified that `W_new==-W`.
