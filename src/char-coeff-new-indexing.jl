@@ -195,7 +195,7 @@ function MathieuExponent(a,q;ndet::Int=20)
     m=Tridiagonal(d[2:N], ones(N), d[1:N-1])
     delta=det(m)
     if x
-        alpha=acos(2delta-1)/pi
+        alpha=acos(2*Complex(delta)-1)/pi
     else
         alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
     end
