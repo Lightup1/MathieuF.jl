@@ -118,11 +118,13 @@ function MathieuCharVecWronλ(ν::Real,q::Real)
 end
 
 """
+`W=MathieuWron(ν,q)` or `W=MathieuWron(ν,C_k,index)`.
+
 Return the Wronskian.
 
 For Mathieu's equation
 
-y'' + (B_ν - 2 q cos( 2z )) y = 0,
+y'' + (a- 2 q cos( 2z )) y = 0,
 
 the Wronskian is defined by 
 
@@ -130,7 +132,7 @@ the Wronskian is defined by
 \\frac{\\dot{f} f^*-f \\dot{f^*}}{2i}
 ```
 
-where ``f=e^{i\\nu z}\\sum_k{C_{2k}e^{i2kz}}`` with ``\\sum_k{C_{2k}^2}=1`` is the solution of the Mathieu equation and ``f^*`` is its complex conjugate. 
+where ``f=e^{i\\nu z}\\sum_k{C_{k}e^{i2kz}}`` with ``\\sum_k{C_{k}^2}=1`` is the solution of the Mathieu equation and ``f^*`` is its complex conjugate. 
 """
 function MathieuWron(ν,q)
     _,C_2k,index=MathieuCharVecλ(ν,q)

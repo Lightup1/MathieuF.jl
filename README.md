@@ -20,7 +20,7 @@ Related Package: [MathieuFunctions.jl](https://github.com/BBN-Q/MathieuFunctions
 nu,ck=MathieuExponent(a,q)
 ```
 where `nu` is the characteristic exponent and vector `ck` is the Fourier coefficients of the eigenfunction with `norm(ck)≈1`.
-Note that `nu` is reduced to the interval `[0,2]` and `c0` corresponds to `ck[(length(ck)-1)÷2]` with the reduced `nu`.
+Note that `nu` is reduced to the interval `[0,2]` and `c0` corresponds to `ck[(length(ck)-1)÷2]` with the reduced `nu`. (For `nu` is real, the procedure actually reduces `nu` into `[0,1]`).
 
 ```julia
 W=MathieuWron(nu,ck::Vector,index::Int)
@@ -33,10 +33,22 @@ nu,ck=MathieuExponent(a,q)
 idx=(length(ck)-1)÷2+1
 W=MathieuWron(nu,ck,idx)
 ```
+In some cases, `W` could be negative. One can replace `nu` with `-nu` and reverse `ck`, i.e., `reverse!(ck)`, to get a positive `W`.
+If one prefers a positive `nu`, one can further shift `nu` with `nu+=2`. 
+In this case, `idx` should be `idx+=1`.
+Code example:
+```julia
+nu=2-nu
+reverse!(ck)
+idx=idx+=1
+W_new=MathieuWron(nu,ck,idx)
+```
+It can be verified that `W_new==-W`.
 
 If one knows `nu` (not reduced) and `q`, one can use
 ```julia
 W=MathieuWron(nu,q)
 ```
+During my test, the result is positive with such method.
 
 
