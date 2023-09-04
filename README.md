@@ -34,8 +34,7 @@ idx=(length(ck)-1)÷2+1
 W=MathieuWron(nu,ck,idx)
 ```
 In some cases, `W` could be negative. One can replace `nu` with `-nu` and reverse `ck`, i.e., `reverse!(ck)`, to get a positive `W`.
-If one prefers a positive `nu`, one can further shift `nu` with `nu+=2`. 
-In this case, `idx` should be `idx+=1`.
+If one prefers a positive `nu`, one can further shift `nu` with `nu+=2` and `idx` with `idx+=1`.
 Code example:
 ```julia
 nu=2-nu
