@@ -224,7 +224,8 @@ function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true,max_ndet::Int=1000)
             return ν,vecs[:,idx]
         end
     else
-        beta=delta*sin(pi*sqrt(a)/2)^2
+        beta=delta*sin(pi*sqrt(Complex(a))/2)^2
+        beta=real(beta) # beta should be real.
         if 0<=beta<=1
             alpha=2*asin(sqrt(beta))/pi
             ν=mod(alpha,2) #modular reduction to the solution [0,2]
