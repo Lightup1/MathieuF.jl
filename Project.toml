@@ -1,7 +1,7 @@
 name = "MathieuF"
 uuid = "1d5ea620-0e37-47ee-af2a-0a7cf7ec3863"
 authors = ["Baiyi Yu"]
-version = "0.1.5"
+version = "0.1.4"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
