@@ -194,38 +194,36 @@ function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true,max_ndet::Int=1000)
     d=q./((2*(-ndet:ndet) .+x).^2 .-a)
     m=Tridiagonal(d[2:N], ones(N), d[1:N-1])
     delta=det(m)
-    if 0<=delta<=1
-        if x
+    if x
+        if 0<=delta<=1
             alpha=acos(2*delta-1)/pi
+        elseif has_img==true
+            alpha=acos(2*Complex(delta)-1)/pi
+        elseif ndet<max_ndet
+            MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
         else
-            alpha=2*asin(sqrt(delta*sin(pi*sqrt(a)/2)^2))/pi
+            @warn "Expect real output for a=$a and q=$q, but the result is complex even for ndet=$ndet."
+            alpha=acos(2*Complex(delta)-1)/pi
         end
-        ν=mod(alpha,2)
+    else
+        beta=delta*sin(pi*sqrt(a)/2)^2
+        if 0<=beta<=1
+            alpha=2*asin(sqrt(beta))/pi
+        elseif has_img==true
+            alpha=2*asin(sqrt(Complex(beta)))/pi
+        elseif ndet<max_ndet
+            MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
+        else
+            @warn "Expect real output for a=$a and q=$q, but the result is complex even for ndet=$ndet."
+            alpha=2*asin(sqrt(Complex(beta)))/pi
+        end
+    end
+    if isreal(alpha)
+        ν=mod(alpha,2) #modular reduction to the solution [0,2]
         H_nu=SymTridiagonal((ν .+ 2*(-ndet:ndet)).^2 .- a,q*ones(N-1))
         ck=eigvecs(H_nu,[0.0])[:,1]
         return ν,ck
-    elseif has_img==true
-        if x
-            alpha=acos(2*Complex(delta)-1)/pi
-        else
-            alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
-        end
-        ν=alpha*(2*(imag(alpha)>=0)-1) #change an overall sign so that the imaginary part is always positive.
-        ν=mod(real(ν),2)+im*imag(ν) #modular reduction to the solution [0,2]
-        q=Complex(q)
-        H_nu=Matrix(SymTridiagonal((ν .+ 2*(-ndet:ndet)).^2 .- a,q*ones(N-1)))
-        vals,vecs=eigen(H_nu)
-        _,idx=findmin(abs,vals)
-        return ν,vecs[:,idx]
-    elseif ndet<max_ndet
-        MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
     else
-        @warn "Expect real output for a=$a and q=$q, but the result is complex even for ndet=$ndet."
-        if x
-            alpha=acos(2*Complex(delta)-1)/pi
-        else
-            alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
-        end
         ν=alpha*(2*(imag(alpha)>=0)-1) #change an overall sign so that the imaginary part is always positive.
         ν=mod(real(ν),2)+im*imag(ν) #modular reduction to the solution [0,2]
         q=Complex(q)
