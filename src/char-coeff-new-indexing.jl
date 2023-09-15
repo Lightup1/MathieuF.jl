@@ -220,7 +220,7 @@ function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true,max_ndet::Int=1000)
     elseif ndet<max_ndet
         MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
     else
-        @warn "Expect real output, but the result is complex even for ndet=$ndet."
+        @warn "Expect real output for a=$a and q=$q, but the result is complex even for ndet=$ndet."
         if x
             alpha=acos(2*Complex(delta)-1)/pi
         else
