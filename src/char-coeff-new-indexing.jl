@@ -187,7 +187,7 @@ Of course, every other solutions are obtained by the formula
 ±ν+2k, with k integer.
 
 """
-function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true)
+function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true,max_ndet::Int=1000)
     x=(a>=0)&& sqrt(abs(a))/2%1==0
     N=2*ndet+1 #matrix dimension
     a,q=float.(promote(a,q))
@@ -217,8 +217,8 @@ function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true)
         vals,vecs=eigen(H_nu)
         _,idx=findmin(abs,vals)
         return ν,vecs[:,idx]
-    elseif ndet/2<2000
-        MathieuExponent(a,q;ndet=2*ndet,has_img=false)
+    elseif ndet<max_ndet
+        MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
     else
         @warn "Expect real output, but the result is complex even for ndet=$ndet."
         if x
