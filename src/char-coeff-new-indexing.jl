@@ -187,33 +187,47 @@ Of course, every other solutions are obtained by the formula
 ±ν+2k, with k integer.
 
 """
-function MathieuExponent(a,q;ndet::Int=20)
+function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true)
     x=(a>=0)&& sqrt(abs(a))/2%1==0
     N=2*ndet+1 #matrix dimension
     a,q=float.(promote(a,q))
     d=q./((2*(-ndet:ndet) .+x).^2 .-a)
     m=Tridiagonal(d[2:N], ones(N), d[1:N-1])
     delta=det(m)
-    if x
-        alpha=acos(2*Complex(delta)-1)/pi
-    else
-        alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
-    end
-    ν=alpha*(2*(imag(alpha)>=0)-1) #change an overall sign so that the imaginary part is always positive.
-    ν=mod(real(ν),2)+im*imag(ν) #modular reduction to the solution [0,2]
-    # ν_abs=abs(ν)
-    # C = (8.46 + 0.444*ν_abs)/(1 + 0.085*ν_abs)
-    # D =  (0.24 + 0.0214*ν_abs)/(1 + 0.059*ν_abs)
-    # n_require = ceil(Int, (ν_abs + 2 + C*abs(q)^D)/2) # matrix size is 2N+1
-    # if n_require > ndet
-    #     return MathieuExponent(a,q;ndet=n_require)
-    # end
-    if isreal(ν)
-        ν=real(ν)
+    if 0<=delta<=1
+        if x
+            alpha=acos(2*delta-1)/pi
+        else
+            alpha=2*asin(sqrt(delta*sin(pi*sqrt(a)/2)^2))/pi
+        end
+        ν=mod(alpha,2)
         H_nu=SymTridiagonal((ν .+ 2*(-ndet:ndet)).^2 .- a,q*ones(N-1))
         ck=eigvecs(H_nu,[0.0])[:,1]
         return ν,ck
+    elseif has_img==true
+        if x
+            alpha=acos(2*Complex(delta)-1)/pi
+        else
+            alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
+        end
+        ν=alpha*(2*(imag(alpha)>=0)-1) #change an overall sign so that the imaginary part is always positive.
+        ν=mod(real(ν),2)+im*imag(ν) #modular reduction to the solution [0,2]
+        q=Complex(q)
+        H_nu=Matrix(SymTridiagonal((ν .+ 2*(-ndet:ndet)).^2 .- a,q*ones(N-1)))
+        vals,vecs=eigen(H_nu)
+        _,idx=findmin(abs,vals)
+        return ν,vecs[:,idx]
+    elseif ndet/2<2000
+        MathieuExponent(a,q;ndet=2*ndet,has_img=false)
     else
+        @warn "Expect real output, but the result is complex even for ndet=$ndet."
+        if x
+            alpha=acos(2*Complex(delta)-1)/pi
+        else
+            alpha=2*asin(sqrt(delta*sin(pi*sqrt(Complex(a))/2)^2))/pi
+        end
+        ν=alpha*(2*(imag(alpha)>=0)-1) #change an overall sign so that the imaginary part is always positive.
+        ν=mod(real(ν),2)+im*imag(ν) #modular reduction to the solution [0,2]
         q=Complex(q)
         H_nu=Matrix(SymTridiagonal((ν .+ 2*(-ndet:ndet)).^2 .- a,q*ones(N-1)))
         vals,vecs=eigen(H_nu)
