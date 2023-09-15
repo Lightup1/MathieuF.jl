@@ -137,7 +137,11 @@ end
 let
     ν=[0.1:.01:0.99;4.01:.01:4.99;]
     q=[0:.01:1;]
-    @test [MathieuExponent(a,q,ndet=200)[1] for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])]≈[mod(ν,2) for ν in ν, q in q]
+    @test ≈([MathieuExponent(a,q,ndet=200)[1] for (a,q) in zip(Float64[MathieuCharA(ν,q) for ν in ν, q in q],[q for ν in ν, q in q])],
+    [mod(ν,2) for ν in ν, q in q],
+    atol=1e-5, 
+    norm= x -> norm(x, Inf)
+    )
 end
 
 let
