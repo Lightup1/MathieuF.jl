@@ -242,7 +242,7 @@ function MathieuExponent(a,q;ndet::Int=20,has_img::Bool=true,max_ndet::Int=1000)
             _,idx=findmin(abs,vals)
             return ν,vecs[:,idx]
         elseif ndet<max_ndet
-            MathieuExponent(a,q;ndet=2*ndet,has_img=false,max_ndet=max_ndet)
+            MathieuExponent(a,q;ndet=min(2*ndet,max_ndet),has_img=false,max_ndet=max_ndet)
         else
             @warn "Expect real output for a=$a and q=$q, but the result is complex even for ndet=$ndet."
             alpha=2*asin(sqrt(Complex(beta)))/pi
